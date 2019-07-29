@@ -17,7 +17,7 @@ namespace VELogistics.Models
         [Required]
         public DateTime DeliverdDate { get; set; }
         [Required]
-        public string LoCation { get; set; }
+        public string Location { get; set; }
         public int DriverId { get; set; }
         [Required]
         public int UserId { get; set; }
