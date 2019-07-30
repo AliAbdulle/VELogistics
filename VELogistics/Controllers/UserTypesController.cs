@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VELogistics.Data;
 using VELogistics.Models;
 
 namespace VELogistics.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserTypesController : ControllerBase
+    public class UserTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -21,81 +19,130 @@ namespace VELogistics.Controllers
             _context = context;
         }
 
-        // GET: api/UserTypes
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserType>>> GetUserType()
+        // GET: UserTypes
+        public async Task<IActionResult> Index()
         {
-            return await _context.UserType.ToListAsync();
+            return View(await _context.UserType.ToListAsync());
         }
 
-        // GET: api/UserTypes/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserType>> GetUserType(int id)
+        // GET: UserTypes/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            var userType = await _context.UserType.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var userType = await _context.UserType
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (userType == null)
             {
                 return NotFound();
             }
 
-            return userType;
+            return View(userType);
         }
 
-        // PUT: api/UserTypes/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserType(int id, UserType userType)
+        // GET: UserTypes/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: UserTypes/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name")] UserType userType)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(userType);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userType);
+        }
+
+        // GET: UserTypes/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userType = await _context.UserType.FindAsync(id);
+            if (userType == null)
+            {
+                return NotFound();
+            }
+            return View(userType);
+        }
+
+        // POST: UserTypes/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] UserType userType)
         {
             if (id != userType.Id)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(userType).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserTypeExists(id))
+                try
                 {
-                    return NotFound();
+                    _context.Update(userType);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!UserTypeExists(userType.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToAction(nameof(Index));
             }
-
-            return NoContent();
+            return View(userType);
         }
 
-        // POST: api/UserTypes
-        [HttpPost]
-        public async Task<ActionResult<UserType>> PostUserType(UserType userType)
+        // GET: UserTypes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            _context.UserType.Add(userType);
-            await _context.SaveChangesAsync();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            return CreatedAtAction("GetUserType", new { id = userType.Id }, userType);
-        }
-
-        // DELETE: api/UserTypes/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<UserType>> DeleteUserType(int id)
-        {
-            var userType = await _context.UserType.FindAsync(id);
+            var userType = await _context.UserType
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (userType == null)
             {
                 return NotFound();
             }
 
+            return View(userType);
+        }
+
+        // POST: UserTypes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var userType = await _context.UserType.FindAsync(id);
             _context.UserType.Remove(userType);
             await _context.SaveChangesAsync();
-
-            return userType;
+            return RedirectToAction(nameof(Index));
         }
 
         private bool UserTypeExists(int id)
