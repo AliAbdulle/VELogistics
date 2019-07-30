@@ -47,21 +47,17 @@ namespace VELogistics.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
             [Display(Name = "FirstName")]
             public string FirstName { get; set; }
 
             [Required]
-            [EmailAddress]
             [Display(Name = "LastName")]
             public string LastName { get; set; }
 
             [Required]
-            [EmailAddress]
             [Display(Name = "Name")]
             public string Name { get; set; }
             [Required]
-            [EmailAddress]
             [Display(Name = "User Type")]
             public int UserTypeId { get; set; }
             [Required]
