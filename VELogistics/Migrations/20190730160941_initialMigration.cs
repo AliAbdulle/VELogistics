@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VELogistics.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,7 +93,7 @@ namespace VELogistics.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    StreetAddress = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     UserTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -116,6 +116,7 @@ namespace VELogistics.Migrations
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
                     UserTypeId = table.Column<int>(nullable: false)
                 },
@@ -243,11 +244,6 @@ namespace VELogistics.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "StreetAddress", "UserTypeId" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "08b4e556-5c8b-42e0-927d-096bf4edab41", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEEuh+rtAUwypDpaUyhFaVj8saZG0rt7irJ3bzLaCCgyGCtd5NueSRxapEbOqpoF2tg==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "1261 Massman Dr", 1 });
-
-            migrationBuilder.InsertData(
                 table: "Driver",
                 columns: new[] { "Id", "FirstName", "IsDeliverd", "LastName" },
                 values: new object[,]
@@ -261,7 +257,7 @@ namespace VELogistics.Migrations
                 columns: new[] { "LoadId", "Amount", "ApplicationUserId", "Carrier", "Customer", "DeliverdDate", "DriverId", "Location", "PickupDate", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1200.0, null, "Swift", "Apple", new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Nashville, TN", new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 1, 1200.0, null, "Swift", "Apple", new DateTime(2019, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Nashville, TN", new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
                     { 2, 1000.0, null, "CEVA", "Dell", new DateTime(2019, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Atlanta, GA", new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
                 });
 
@@ -270,9 +266,14 @@ namespace VELogistics.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 2, "Customer" },
-                    { 3, "Carrier" }
+                    { 1, "Customer" },
+                    { 2, "Carrier" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Name", "UserTypeId" },
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "268c8452-291d-496b-b242-08cc111d0a94", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEJ/CMwD6RTYrPlLCySz+LJBW8QP3TFDpkolH1cWoONMbgD/hRWZmeONG5PPt0AuqDQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "Jamalik", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

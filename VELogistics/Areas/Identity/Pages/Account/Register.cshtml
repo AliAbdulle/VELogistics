@@ -27,10 +27,9 @@
                 <input asp-for="Input.Name" class="form-control" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.UserTypeId"></label>
-                <input asp-for="Input.UserTypeId" class="form-control" />
-                <span asp-validation-for="Input.UserTypeId" class="text-danger"></span>
+            < <div class="form-group">
+                <label asp-for="Input.UserTypeId" class="control-label"></label>
+                <select asp-for="Input.UserTypeId" class="form-control" asp-items="Model.Options"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>

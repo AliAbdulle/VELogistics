@@ -10,22 +10,22 @@ using VELogistics.Models;
 
 namespace VELogistics.Controllers
 {
-    public class LoadsController : Controller
+    public class DriversController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public LoadsController(ApplicationDbContext context)
+        public DriversController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Loads
+        // GET: Drivers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Load.ToListAsync());
+            return View(await _context.Driver.ToListAsync());
         }
 
-        // GET: Loads/Details/5
+        // GET: Drivers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace VELogistics.Controllers
                 return NotFound();
             }
 
-            var load = await _context.Load
-                .FirstOrDefaultAsync(m => m.LoadId == id);
-            if (load == null)
+            var driver = await _context.Driver
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (driver == null)
             {
                 return NotFound();
             }
 
-            return View(load);
+            return View(driver);
         }
 
-        // GET: Loads/Create
+        // GET: Drivers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Loads/Create
+        // POST: Drivers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LoadId,Customer,Carrier,Amount,PickupDate,DeliverdDate,Location,DriverId,UserId")] Load load)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,IsDeliverd")] Driver driver)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(load);
+                _context.Add(driver);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(load);
+            return View(driver);
         }
 
-        // GET: Loads/Edit/5
+        // GET: Drivers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace VELogistics.Controllers
                 return NotFound();
             }
 
-            var load = await _context.Load.FindAsync(id);
-            if (load == null)
+            var driver = await _context.Driver.FindAsync(id);
+            if (driver == null)
             {
                 return NotFound();
             }
-            return View(load);
+            return View(driver);
         }
 
-        // POST: Loads/Edit/5
+        // POST: Drivers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LoadId,Customer,Carrier,Amount,PickupDate,DeliverdDate,Location,DriverId,UserId")] Load load)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,IsDeliverd")] Driver driver)
         {
-            if (id != load.LoadId)
+            if (id != driver.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace VELogistics.Controllers
             {
                 try
                 {
-                    _context.Update(load);
+                    _context.Update(driver);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LoadExists(load.LoadId))
+                    if (!DriverExists(driver.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace VELogistics.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(load);
+            return View(driver);
         }
 
-        // GET: Loads/Delete/5
+        // GET: Drivers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace VELogistics.Controllers
                 return NotFound();
             }
 
-            var load = await _context.Load
-                .FirstOrDefaultAsync(m => m.LoadId == id);
-            if (load == null)
+            var driver = await _context.Driver
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (driver == null)
             {
                 return NotFound();
             }
 
-            return View(load);
+            return View(driver);
         }
 
-        // POST: Loads/Delete/5
+        // POST: Drivers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var load = await _context.Load.FindAsync(id);
-            _context.Load.Remove(load);
+            var driver = await _context.Driver.FindAsync(id);
+            _context.Driver.Remove(driver);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LoadExists(int id)
+        private bool DriverExists(int id)
         {
-            return _context.Load.Any(e => e.LoadId == id);
+            return _context.Driver.Any(e => e.Id == id);
         }
     }
 }

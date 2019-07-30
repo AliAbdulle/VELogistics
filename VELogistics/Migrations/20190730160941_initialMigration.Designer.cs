@@ -10,8 +10,8 @@ using VELogistics.Data;
 namespace VELogistics.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190729213152_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20190730160941_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -266,7 +266,7 @@ namespace VELogistics.Migrations
                             Amount = 1200.0,
                             Carrier = "Swift",
                             Customer = "Apple",
-                            DeliverdDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DeliverdDate = new DateTime(2019, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DriverId = 2,
                             Location = "Nashville, TN",
                             PickupDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -301,6 +301,9 @@ namespace VELogistics.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
+                    b.Property<string>("Name")
+                        .IsRequired();
+
                     b.Property<string>("Password")
                         .IsRequired();
 
@@ -329,12 +332,12 @@ namespace VELogistics.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 1,
                             Name = "Customer"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             Name = "Carrier"
                         });
                 });
@@ -349,7 +352,7 @@ namespace VELogistics.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
-                    b.Property<string>("StreetAddress")
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<int>("UserTypeId");
@@ -363,20 +366,20 @@ namespace VELogistics.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "08b4e556-5c8b-42e0-927d-096bf4edab41",
+                            ConcurrencyStamp = "268c8452-291d-496b-b242-08cc111d0a94",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEuh+rtAUwypDpaUyhFaVj8saZG0rt7irJ3bzLaCCgyGCtd5NueSRxapEbOqpoF2tg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ/CMwD6RTYrPlLCySz+LJBW8QP3TFDpkolH1cWoONMbgD/hRWZmeONG5PPt0AuqDQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com",
                             FirstName = "Ali",
                             LastName = "Abdulle",
-                            StreetAddress = "1261 Massman Dr",
+                            Name = "Jamalik",
                             UserTypeId = 1
                         });
                 });

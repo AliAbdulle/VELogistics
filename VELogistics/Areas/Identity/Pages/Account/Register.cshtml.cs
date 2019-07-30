@@ -8,33 +8,40 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using VELogistics.Data;
+using VELogistics.Models;
 
 namespace VELogistics.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            ApplicationDbContext context,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
             _emailSender = emailSender;
         }
+        private readonly ApplicationDbContext _context;
 
         [BindProperty]
         public InputModel Input { get; set; }
-
+        public SelectList Options { get; private set; }
         public string ReturnUrl { get; set; }
 
         public class InputModel
@@ -53,7 +60,10 @@ namespace VELogistics.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Name")]
             public string Name { get; set; }
-
+            [Required]
+            [EmailAddress]
+            [Display(Name = "User Type")]
+            public int UserTypeId { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -73,6 +83,7 @@ namespace VELogistics.Areas.Identity.Pages.Account
 
         public void OnGet(string returnUrl = null)
         {
+            Options = new SelectList(_context.UserType, nameof(UserType.Id), nameof(UserType.Name));
             ReturnUrl = returnUrl;
         }
 
@@ -81,7 +92,12 @@ namespace VELogistics.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Name = Input.Name,
+                    UserTypeId = Input.UserTypeId
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

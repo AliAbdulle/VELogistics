@@ -101,5 +101,7 @@ namespace VELogistics.Data
                );
 
         }
+
+        public DbSet<VELogistics.Models.Driver> Driver { get; set; }
     }
 }
