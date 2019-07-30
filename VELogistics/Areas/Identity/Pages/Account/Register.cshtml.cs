@@ -96,6 +96,8 @@ namespace VELogistics.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     Name = Input.Name,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
                     UserTypeId = Input.UserTypeId
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

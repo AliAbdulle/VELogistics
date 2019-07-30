@@ -15,6 +15,7 @@ namespace VELogistics.Data
         {
         }
         public DbSet<Load> Load { get; set; }
+        public DbSet<ApplicationUser>ApplicationUsers { get; set; }
         public DbSet<UserType> UserType { get; set; }
         public DbSet<User> User { get; set; }
 
