@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,9 @@ namespace VELogistics.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser()
-        {
-        }
+        //public ApplicationUser()
+        //{
+        //}
 
         [Required]
         [Display(Name = "First Name")]
@@ -27,6 +28,10 @@ namespace VELogistics.Models
         [Required]
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
+
+        [NotMapped]
+        [Display(Name = "User Name")]
+        public string FullName => $"{FirstName} {LastName}";
 
     }
     

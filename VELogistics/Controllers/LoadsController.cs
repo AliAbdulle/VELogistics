@@ -128,7 +128,7 @@ namespace VELogistics.Controllers
             }
             ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
             ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
             return View(load);
         }
 
