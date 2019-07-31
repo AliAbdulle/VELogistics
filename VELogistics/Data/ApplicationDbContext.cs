@@ -43,6 +43,7 @@ namespace VELogistics.Data
             CustomerUser.PasswordHash = passwordHash.HashPassword(CustomerUser, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(CustomerUser);
 
+            base.OnModelCreating(modelBuilder);
             ApplicationUser CarrierUser = new ApplicationUser
             {
                 FirstName = "Andy",
@@ -103,8 +104,7 @@ namespace VELogistics.Data
                   DeliverdDate = new DateTime(2019, 11, 01),
                   Location = "Nashville, TN",
                   DriverId = 2,
-                  CustomerUserId = "Dell"
-
+                  CustomerUserId = CustomerUser.Id
               },
                new Load()
                {
@@ -114,8 +114,7 @@ namespace VELogistics.Data
                    DeliverdDate = new DateTime(2019, 01, 11),
                    Location = "Atlanta, GA",
                    DriverId = 1,
-                   CarrierUserId = "Swift"
-
+                   CarrierUserId = CarrierUser.Id
                }
                );
 

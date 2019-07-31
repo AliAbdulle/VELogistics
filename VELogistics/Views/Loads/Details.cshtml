@@ -10,48 +10,47 @@
     <h4>Load</h4>
     <hr />
     <dl class="row">
-
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Amount)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Amount)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PickupDate)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PickupDate)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DeliverdDate)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DeliverdDate)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Location)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Location)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DriverId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Driver)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DriverId)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Driver.FirstName)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerUserId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomerUser)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerUserId)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CustomerUser.Id)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CarrierUserId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarrierUser)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CarrierUserId)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarrierUser.Id)
         </dd>
     </dl>
 </div>

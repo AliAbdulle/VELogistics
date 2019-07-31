@@ -22,7 +22,7 @@ namespace VELogistics.Models
         [Display(Name= "FullName")]
         public string FullName => $"{FirstName} {LastName}";
 
-        //public List<Load> Loads { get; set; }
+        public List<Load> Loads { get; set; }
 
     }
 }

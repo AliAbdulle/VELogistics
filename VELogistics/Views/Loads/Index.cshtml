@@ -12,7 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
@@ -26,13 +25,13 @@
                 @Html.DisplayNameFor(model => model.Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DriverId)
+                @Html.DisplayNameFor(model => model.Driver)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerUserId)
+                @Html.DisplayNameFor(model => model.CustomerUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CarrierUserId)
+                @Html.DisplayNameFor(model => model.CarrierUser)
             </th>
             <th></th>
         </tr>
@@ -40,7 +39,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
@@ -54,13 +52,13 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DriverId)
+                @Html.DisplayFor(modelItem => item.Driver.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerUserId)
+                @Html.DisplayFor(modelItem => item.CustomerUser.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CarrierUserId)
+                @Html.DisplayFor(modelItem => item.CarrierUser.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LoadId">Edit</a> |

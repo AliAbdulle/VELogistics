@@ -1,36 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VELogistics.Data;
 using VELogistics.Models;
-using VELogistics.Models.ViewModel;
 
 namespace VELogistics.Controllers
 {
     public class LoadsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public LoadsController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         // GET: Loads
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-
-            var applicationDbContext =
-                _context.Load
-                        .Include(l => l.Driver);
-                       
-
-            return View(await _context.Load.ToListAsync());
+            var applicationDbContext = _context.Load.Include(l => l.CarrierUser).Include(l => l.CustomerUser).Include(l => l.Driver);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Loads/Details/5
@@ -42,6 +35,8 @@ namespace VELogistics.Controllers
             }
 
             var load = await _context.Load
+                .Include(l => l.CarrierUser)
+                .Include(l => l.CustomerUser)
                 .Include(l => l.Driver)
                 .FirstOrDefaultAsync(m => m.LoadId == id);
             if (load == null)
@@ -53,13 +48,12 @@ namespace VELogistics.Controllers
         }
 
         // GET: Loads/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var viewModel = new LoadCreateViewModel
-            {
-                AvailableDrivers = await _context.Driver.ToListAsync(),
-            };
-            return View(viewModel);
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName");
+            return View();
         }
 
         // POST: Loads/Create
@@ -67,26 +61,18 @@ namespace VELogistics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LoadCreateViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("LoadId,Amount,PickupDate,DeliverdDate,Location,DriverId,CustomerUserId,CarrierUserId")] Load load)
         {
-            // NOTE: Ignore any ModelState errors for a particular property by "removing" it's key
-            //       Since we are using a ViewModel, the ModelState Keys 
-            //       MUST include the ViewModels' Book property
-            ModelState.Remove("Load.Driver");
-            ModelState.Remove("Load.User");
-            ModelState.Remove("Load.UserId");
-
             if (ModelState.IsValid)
             {
-                var Load = viewModel.Load;
-                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                Load.LoadId = currentUser.UserTypeId;
-                _context.Add(Load);
+                _context.Add(load);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            viewModel.AvailableDrivers = await _context.Driver.ToListAsync();
-            return View(viewModel);
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
+            return View(load);
         }
 
         // GET: Loads/Edit/5
@@ -102,6 +88,9 @@ namespace VELogistics.Controllers
             {
                 return NotFound();
             }
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
             return View(load);
         }
 
@@ -110,7 +99,7 @@ namespace VELogistics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LoadId,Customer,Carrier,Amount,PickupDate,DeliverdDate,Location,DriverId,UserId")] Load load)
+        public async Task<IActionResult> Edit(int id, [Bind("LoadId,Amount,PickupDate,DeliverdDate,Location,DriverId,CustomerUserId,CarrierUserId")] Load load)
         {
             if (id != load.LoadId)
             {
@@ -137,6 +126,9 @@ namespace VELogistics.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
             return View(load);
         }
 
@@ -149,6 +141,9 @@ namespace VELogistics.Controllers
             }
 
             var load = await _context.Load
+                .Include(l => l.CarrierUser)
+                .Include(l => l.CustomerUser)
+                .Include(l => l.Driver)
                 .FirstOrDefaultAsync(m => m.LoadId == id);
             if (load == null)
             {
