@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VELogistics.Data;
 using VELogistics.Models;
+using VELogistics.Models.ViewModel;
 
 namespace VELogistics.Controllers
 {
     public class LoadsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoadsController(ApplicationDbContext context)
+        public LoadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Loads
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            var applicationDbContext =
+                _context.Load
+                        .Include(l => l.Driver);
+                       
+
             return View(await _context.Load.ToListAsync());
         }
 
@@ -34,6 +42,7 @@ namespace VELogistics.Controllers
             }
 
             var load = await _context.Load
+                .Include(l => l.Driver)
                 .FirstOrDefaultAsync(m => m.LoadId == id);
             if (load == null)
             {
@@ -44,9 +53,13 @@ namespace VELogistics.Controllers
         }
 
         // GET: Loads/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new LoadCreateViewModel
+            {
+                AvailableDrivers = await _context.Driver.ToListAsync(),
+            };
+            return View(viewModel);
         }
 
         // POST: Loads/Create
@@ -54,15 +67,26 @@ namespace VELogistics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LoadId,Customer,Carrier,Amount,PickupDate,DeliverdDate,Location,DriverId,UserId")] Load load)
+        public async Task<IActionResult> Create(LoadCreateViewModel viewModel)
         {
+            // NOTE: Ignore any ModelState errors for a particular property by "removing" it's key
+            //       Since we are using a ViewModel, the ModelState Keys 
+            //       MUST include the ViewModels' Book property
+            ModelState.Remove("Load.Driver");
+            ModelState.Remove("Load.User");
+            ModelState.Remove("Load.UserId");
+
             if (ModelState.IsValid)
             {
-                _context.Add(load);
+                var Load = viewModel.Load;
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                Load.LoadId = currentUser.UserTypeId;
+                _context.Add(Load);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(load);
+            viewModel.AvailableDrivers = await _context.Driver.ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Loads/Edit/5

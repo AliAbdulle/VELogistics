@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VELogistics.Models
 {
@@ -16,6 +18,11 @@ namespace VELogistics.Models
         {
             IsDeliverd = true;
         }
+        [NotMapped]
+        [Display(Name= "Driver")]
+        public string FullName => $"{FirstName} {LastName}";
+
+        public List<Load> Loads { get; set; }
 
     }
 }

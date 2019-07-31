@@ -10,6 +10,8 @@ namespace VELogistics.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+    
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -22,7 +24,7 @@ namespace VELogistics.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            ApplicationUser user = new ApplicationUser
+            ApplicationUser CustomerUser = new ApplicationUser
             {
                 FirstName = "Ali",
                 LastName = "Abdulle",
@@ -38,8 +40,29 @@ namespace VELogistics.Data
                 UserTypeId = 1
             };
             var passwordHash = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHash.HashPassword(user, "Admin8*");
-            modelBuilder.Entity<ApplicationUser>().HasData(user);
+            CustomerUser.PasswordHash = passwordHash.HashPassword(CustomerUser, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(CustomerUser);
+
+            base.OnModelCreating(modelBuilder);
+            ApplicationUser CarrierUser = new ApplicationUser
+            {
+                FirstName = "Ali",
+                LastName = "Abdulle",
+                Name = "Jamalik",
+                UserName = "admin@admin.com",
+                NormalizedUserName = "ADMIN@ADMIN.COM",
+                Email = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                UserTypeId = 2
+            };
+             passwordHash = new PasswordHasher<ApplicationUser>();
+            CarrierUser.PasswordHash = passwordHash.HashPassword(CarrierUser, "Admin8*");
+            modelBuilder.Entity<ApplicationUser>().HasData(CarrierUser);
+
 
             modelBuilder.Entity<UserType>().HasData(
                 new UserType()
@@ -76,28 +99,24 @@ namespace VELogistics.Data
               new Load()
               {
                   LoadId = 1,
-                  Customer = "Apple",
-                  Carrier = "Swift",
                   Amount = 1200.00,
                   PickupDate = new DateTime(2019,10,01),
                   DeliverdDate = new DateTime(2019,11,01),
                   Location = "Nashville, TN",
                   DriverId = 2,
-                  UserId = 2
+                  CustomerUserId = "1"
 
               },
                new Load()
                {
                    LoadId = 2,
-                   Customer = "Dell",
-                   Carrier = "CEVA",
                    Amount = 1000.00,
                    PickupDate = new DateTime(2019, 11, 05),
                    DeliverdDate = new DateTime(2019, 01, 11),
                    Location = "Atlanta, GA",
                    DriverId = 1,
-                   UserId = 1
-                   
+                   CarrierUserId = "2"
+
                }
                );
 

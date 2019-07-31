@@ -12,12 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Carrier)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
@@ -34,7 +29,10 @@
                 @Html.DisplayNameFor(model => model.DriverId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.CustomerUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarrierUserId)
             </th>
             <th></th>
         </tr>
@@ -42,12 +40,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Carrier)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
@@ -64,7 +57,10 @@
                 @Html.DisplayFor(modelItem => item.DriverId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.CustomerUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarrierUserId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LoadId">Edit</a> |
