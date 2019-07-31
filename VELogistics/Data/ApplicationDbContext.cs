@@ -19,7 +19,7 @@ namespace VELogistics.Data
         public DbSet<Load> Load { get; set; }
         public DbSet<ApplicationUser>ApplicationUsers { get; set; }
         public DbSet<UserType> UserType { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Driver> Driver { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,17 +46,17 @@ namespace VELogistics.Data
             base.OnModelCreating(modelBuilder);
             ApplicationUser CarrierUser = new ApplicationUser
             {
-                FirstName = "Ali",
-                LastName = "Abdulle",
-                Name = "Jamalik",
-                UserName = "admin@admin.com",
-                NormalizedUserName = "ADMIN@ADMIN.COM",
-                Email = "admin@admin.com",
-                NormalizedEmail = "ADMIN@ADMIN.COM",
+                FirstName = "Andy",
+                LastName = "Collin",
+                Name = "NSS",
+                UserName = "andy@admin.com",
+                NormalizedUserName = "ANDY@ADMIN.COM",
+                Email = "andy@admin.com",
+                NormalizedEmail = "ANDY@ADMIN.COM",
                 EmailConfirmed = true,
                 LockoutEnabled = false,
-                SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
-                Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                SecurityStamp = "7f434409-a4d7-48e8-9ebc-8803db794588",
+                Id = "00000000-ffff-fffs-fffd-ffffffffffss",
                 UserTypeId = 2
             };
              passwordHash = new PasswordHasher<ApplicationUser>();
@@ -100,11 +100,11 @@ namespace VELogistics.Data
               {
                   LoadId = 1,
                   Amount = 1200.00,
-                  PickupDate = new DateTime(2019,10,01),
-                  DeliverdDate = new DateTime(2019,11,01),
+                  PickupDate = new DateTime(2019, 10, 01),
+                  DeliverdDate = new DateTime(2019, 11, 01),
                   Location = "Nashville, TN",
                   DriverId = 2,
-                  CustomerUserId = "1"
+                  CustomerUserId = "Dell"
 
               },
                new Load()
@@ -115,13 +115,12 @@ namespace VELogistics.Data
                    DeliverdDate = new DateTime(2019, 01, 11),
                    Location = "Atlanta, GA",
                    DriverId = 1,
-                   CarrierUserId = "2"
+                   CarrierUserId = "Swift"
 
                }
                );
 
         }
 
-        public DbSet<VELogistics.Models.Driver> Driver { get; set; }
     }
 }

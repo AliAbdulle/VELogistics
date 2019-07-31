@@ -19,7 +19,7 @@ namespace VELogistics.Models
             IsDeliverd = true;
         }
         [NotMapped]
-        [Display(Name= "Driver")]
+        [Display(Name= "FullName")]
         public string FullName => $"{FirstName} {LastName}";
 
         public List<Load> Loads { get; set; }
