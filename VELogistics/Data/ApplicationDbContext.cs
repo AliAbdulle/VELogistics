@@ -43,7 +43,6 @@ namespace VELogistics.Data
             CustomerUser.PasswordHash = passwordHash.HashPassword(CustomerUser, "Admin8*");
             modelBuilder.Entity<ApplicationUser>().HasData(CustomerUser);
 
-            base.OnModelCreating(modelBuilder);
             ApplicationUser CarrierUser = new ApplicationUser
             {
                 FirstName = "Andy",
@@ -60,7 +59,7 @@ namespace VELogistics.Data
                 UserTypeId = 2
             };
              passwordHash = new PasswordHasher<ApplicationUser>();
-            CarrierUser.PasswordHash = passwordHash.HashPassword(CarrierUser, "Admin8*");
+            CarrierUser.PasswordHash = passwordHash.HashPassword(CarrierUser, "Admiw7*");
             modelBuilder.Entity<ApplicationUser>().HasData(CarrierUser);
 
 
