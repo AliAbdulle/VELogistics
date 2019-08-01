@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VELogistics.Data;
 using VELogistics.Models;
+using VELogistics.Models.ViewModel;
 
 namespace VELogistics.Controllers
 {
+    [Authorize]
     public class LoadsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoadsController(ApplicationDbContext context)
+        public LoadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Loads
         public async Task<IActionResult> Index()
@@ -48,12 +55,14 @@ namespace VELogistics.Controllers
         }
 
         // GET: Loads/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName");
-            return View();
+            var viewModel = new LoadCustomerCreateViewModel
+            {
+                AvailableUserType = await _context.UserType.ToListAsync(),
+            };
+              
+            return View(viewModel);
         }
 
         // POST: Loads/Create
@@ -61,18 +70,23 @@ namespace VELogistics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LoadId,Amount,PickupDate,DeliverdDate,Location,DriverId,CustomerUserId,CarrierUserId")] Load load)
+        public async Task<IActionResult> Create(LoadCustomerCreateViewModel viewModel)
         {
+            ModelState.Remove("Load.User");
+            ModelState.Remove("Load.UserType");
+            ModelState.Remove("Load.CustomerUserId");
+
             if (ModelState.IsValid)
             {
-                _context.Add(load);
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var Load = viewModel.Load;
+                Load.CustomerUserId = currentUser.Id;
+                _context.Add(Load);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CarrierUserId);
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CustomerUserId);
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
-            return View(load);
+            viewModel.AvailableUserType = await _context.UserType.ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Loads/Edit/5
