@@ -52,13 +52,13 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Driver.FirstName)
+                @Html.DisplayFor(modelItem => item.Driver.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerUser.Id)
+                @Html.DisplayFor(modelItem => item.CustomerUser.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CarrierUser.Id)
+                @Html.DisplayFor(modelItem => item.CarrierUser.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LoadId">Edit</a> |

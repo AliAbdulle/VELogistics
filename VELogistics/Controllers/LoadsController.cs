@@ -50,8 +50,8 @@ namespace VELogistics.Controllers
         // GET: Loads/Create
         public IActionResult Create()
         {
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
             ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName");
             return View();
         }
@@ -69,9 +69,9 @@ namespace VELogistics.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CarrierUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CustomerUserId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
             return View(load);
         }
 
@@ -88,9 +88,9 @@ namespace VELogistics.Controllers
             {
                 return NotFound();
             }
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
+            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CarrierUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", load.CustomerUserId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
             return View(load);
         }
 
@@ -127,7 +127,7 @@ namespace VELogistics.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CarrierUserId);
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", load.CustomerUserId);
+            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "CustomerUser", load.CustomerUserId);
             ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
             return View(load);
         }
