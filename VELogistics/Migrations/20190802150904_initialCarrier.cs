@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VELogistics.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialCarrier : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -250,12 +250,12 @@ namespace VELogistics.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Name", "UserTypeId" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "628010bf-c392-44cd-9630-07cac4ef412e", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAED+CRrFzFXPhgBjKSidQQaGCrt2NOPqoCop92QcRdERrYlrFhHLeNW3m4KwHgns4dw==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "Jamalik", 1 });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "b3453ea8-b96b-4e46-a686-414b6d24ebd6", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEPJVj3F/utsfk+4Lq008KvmlUzfIeKhKByARkv90qGUgbBVjiQwy/AKgV7R+NmUi1g==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "Jamalik", 1 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Name", "UserTypeId" },
-                values: new object[] { "00000000-ffff-fffs-fffd-ffffffffffss", 0, "52b3d11f-20af-4514-8622-a8cbc222c803", "ApplicationUser", "andy@admin.com", true, false, null, "ANDY@ADMIN.COM", "ANDY@ADMIN.COM", "AQAAAAEAACcQAAAAEJLBcHHLtpo1Gpu0i0AgUNW25qvPl6E/bG7v6pgwni1Gdjt0ZQIzjY+SmiyC5PhHGA==", null, false, "7f434409-a4d7-48e8-9ebc-8803db794588", false, "andy@admin.com", "Andy", "Collin", "NSS", 2 });
+                values: new object[] { "00000000-ffff-fffs-fffd-ffffffffffss", 0, "1e1e3c22-be89-43ad-94f1-979aee8aa6f9", "ApplicationUser", "andy@admin.com", true, false, null, "ANDY@ADMIN.COM", "ANDY@ADMIN.COM", "AQAAAAEAACcQAAAAEIrX97FDo99KsKc+yHdphELJaWgBQKOXjhVChYZBFtvwjTjtqV/7uz0psKgfQJ+6dw==", null, false, "7f434409-a4d7-48e8-9ebc-8803db794588", false, "andy@admin.com", "Andy", "Collin", "NSS", 2 });
 
             migrationBuilder.InsertData(
                 table: "Load",

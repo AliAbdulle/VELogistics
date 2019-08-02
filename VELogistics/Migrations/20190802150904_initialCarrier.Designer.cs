@@ -10,8 +10,8 @@ using VELogistics.Data;
 namespace VELogistics.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190731204442_Initial")]
-    partial class Initial
+    [Migration("20190802150904_initialCarrier")]
+    partial class initialCarrier
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -330,13 +330,13 @@ namespace VELogistics.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "628010bf-c392-44cd-9630-07cac4ef412e",
+                            ConcurrencyStamp = "b3453ea8-b96b-4e46-a686-414b6d24ebd6",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAED+CRrFzFXPhgBjKSidQQaGCrt2NOPqoCop92QcRdERrYlrFhHLeNW3m4KwHgns4dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPJVj3F/utsfk+4Lq008KvmlUzfIeKhKByARkv90qGUgbBVjiQwy/AKgV7R+NmUi1g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -350,13 +350,13 @@ namespace VELogistics.Migrations
                         {
                             Id = "00000000-ffff-fffs-fffd-ffffffffffss",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "52b3d11f-20af-4514-8622-a8cbc222c803",
+                            ConcurrencyStamp = "1e1e3c22-be89-43ad-94f1-979aee8aa6f9",
                             Email = "andy@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDY@ADMIN.COM",
                             NormalizedUserName = "ANDY@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJLBcHHLtpo1Gpu0i0AgUNW25qvPl6E/bG7v6pgwni1Gdjt0ZQIzjY+SmiyC5PhHGA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIrX97FDo99KsKc+yHdphELJaWgBQKOXjhVChYZBFtvwjTjtqV/7uz0psKgfQJ+6dw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434409-a4d7-48e8-9ebc-8803db794588",
                             TwoFactorEnabled = false,
