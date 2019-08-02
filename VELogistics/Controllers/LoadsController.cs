@@ -35,7 +35,7 @@ namespace VELogistics.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        //Adding a search bar for products
+        //Adding a search bar for Loads
 
         public async Task<IActionResult> Search(string searchLoad)
         {
@@ -77,7 +77,7 @@ namespace VELogistics.Controllers
         // GET: Loads/Create
         public IActionResult Create()
         {
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName");
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName");
             ViewData["UserTypeId"] = new SelectList(_context.UserType, "Id", "Name");
             return View();
         }
@@ -95,7 +95,7 @@ namespace VELogistics.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName", load.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FullName", load.DriverId);
             ViewData["UserTypeId"] = new SelectList(_context.UserType, "Id", "Name", load.UserTypeId);
             return View(load);
         }
