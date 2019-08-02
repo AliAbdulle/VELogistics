@@ -37,20 +37,20 @@ namespace VELogistics.Controllers
 
         //Adding a search bar for products
 
-        public async Task<IActionResult> Search(string searchLoads)
+        public async Task<IActionResult> Search(string searchLoad)
         {
-            var loadsSearch = from l in _context.Load
+            var loadSearch = from l in _context.Load
                                  select l;
 
-            if (!String.IsNullOrEmpty(searchLoads))
+            if (!String.IsNullOrEmpty(searchLoad))
             {
-                loadsSearch = loadsSearch.Where(s => s.UserType.Name.Contains(searchLoads));
+                loadSearch = loadSearch.Where(s => s.UserType.Name.Contains(searchLoad));
             }
 
             //Allows for enter keypress
             this.AcceptButton = this.buttonSearch;
 
-            return View(await loadsSearch.ToListAsync());
+            return View(await loadSearch.ToListAsync());
         }
 
 
