@@ -16,10 +16,8 @@ namespace VELogistics.Models
         public string Location { get; set; }
         public int DriverId { get; set; }
         public Driver Driver { get; set; }
-        public string CustomerUserId { get; set; }
-        public ApplicationUser CustomerUser { get; set; }
+        public int UserTypeId { get; set; }
+        public UserType UserType { get; set; }
 
-        public string CarrierUserId { get; set; }
-        public ApplicationUser CarrierUser { get; set; }
     }
 }

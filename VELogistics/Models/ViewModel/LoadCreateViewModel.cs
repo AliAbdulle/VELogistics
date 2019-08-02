@@ -10,11 +10,16 @@ namespace VELogistics.Models.ViewModel
     {
         public Load Load { get; set; }
         public List<Driver> AvailableDrivers { get; set; }
-
+        public List<UserType> AvailableUserTypes { get; set; }
         // NOTE: Here we use an expression bodied, read-only property
         //       AND the ?. operator
         //       ...good times....
         public List<SelectListItem> DriverOptions =>
             AvailableDrivers?.Select(a => new SelectListItem(a.FullName, a.Id.ToString())).ToList();
+        public List<SelectListItem> UserTypeOptions =>
+           AvailableUserTypes?.Select(a => new SelectListItem(a.Name, a.Id.ToString())).ToList();
+
+
+
     }
 }

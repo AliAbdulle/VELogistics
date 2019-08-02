@@ -39,19 +39,13 @@
             @Html.DisplayNameFor(model => model.Driver)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Driver.FullName)
+            @Html.DisplayFor(model => model.Driver.FirstName)
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerUser)
+            @Html.DisplayNameFor(model => model.UserType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerUser.Name)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CarrierUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CarrierUser.Name)
+            @Html.DisplayFor(model => model.UserType.Name)
         </dd class>
     </dl>
     

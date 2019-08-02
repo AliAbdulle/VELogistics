@@ -28,10 +28,7 @@
                 @Html.DisplayNameFor(model => model.Driver)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarrierUser)
+                @Html.DisplayNameFor(model => model.UserType)
             </th>
             <th></th>
         </tr>
@@ -55,10 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Driver.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CarrierUser.Name)
+                @Html.DisplayFor(modelItem => item.UserType.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LoadId">Edit</a> |

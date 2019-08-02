@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VELogistics.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -108,6 +108,36 @@ namespace VELogistics.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Load",
+                columns: table => new
+                {
+                    LoadId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount = table.Column<double>(nullable: false),
+                    PickupDate = table.Column<DateTime>(nullable: false),
+                    DeliverdDate = table.Column<DateTime>(nullable: false),
+                    Location = table.Column<string>(nullable: false),
+                    DriverId = table.Column<int>(nullable: false),
+                    UserTypeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Load", x => x.LoadId);
+                    table.ForeignKey(
+                        name: "FK_Load_Driver_DriverId",
+                        column: x => x.DriverId,
+                        principalTable: "Driver",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Load_UserType_UserTypeId",
+                        column: x => x.UserTypeId,
+                        principalTable: "UserType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -192,43 +222,6 @@ namespace VELogistics.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Load",
-                columns: table => new
-                {
-                    LoadId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<double>(nullable: false),
-                    PickupDate = table.Column<DateTime>(nullable: false),
-                    DeliverdDate = table.Column<DateTime>(nullable: false),
-                    Location = table.Column<string>(nullable: false),
-                    DriverId = table.Column<int>(nullable: false),
-                    CustomerUserId = table.Column<string>(nullable: true),
-                    CarrierUserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Load", x => x.LoadId);
-                    table.ForeignKey(
-                        name: "FK_Load_AspNetUsers_CarrierUserId",
-                        column: x => x.CarrierUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Load_AspNetUsers_CustomerUserId",
-                        column: x => x.CustomerUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Load_Driver_DriverId",
-                        column: x => x.DriverId,
-                        principalTable: "Driver",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Driver",
                 columns: new[] { "Id", "FirstName", "IsDeliverd", "LastName" },
@@ -250,22 +243,20 @@ namespace VELogistics.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Name", "UserTypeId" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "628010bf-c392-44cd-9630-07cac4ef412e", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAED+CRrFzFXPhgBjKSidQQaGCrt2NOPqoCop92QcRdERrYlrFhHLeNW3m4KwHgns4dw==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "Jamalik", 1 });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "FirstName", "LastName", "Name", "UserTypeId" },
-                values: new object[] { "00000000-ffff-fffs-fffd-ffffffffffss", 0, "52b3d11f-20af-4514-8622-a8cbc222c803", "ApplicationUser", "andy@admin.com", true, false, null, "ANDY@ADMIN.COM", "ANDY@ADMIN.COM", "AQAAAAEAACcQAAAAEJLBcHHLtpo1Gpu0i0AgUNW25qvPl6E/bG7v6pgwni1Gdjt0ZQIzjY+SmiyC5PhHGA==", null, false, "7f434409-a4d7-48e8-9ebc-8803db794588", false, "andy@admin.com", "Andy", "Collin", "NSS", 2 });
-
-            migrationBuilder.InsertData(
-                table: "Load",
-                columns: new[] { "LoadId", "Amount", "CarrierUserId", "CustomerUserId", "DeliverdDate", "DriverId", "Location", "PickupDate" },
-                values: new object[] { 1, 1200.0, null, "00000000-ffff-ffff-ffff-ffffffffffff", new DateTime(2019, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Nashville, TN", new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[,]
+                {
+                    { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "e06f9a3d-bda5-4f03-bf17-38b3b4153d6b", "ApplicationUser", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEPrqlJjcHiR4qB2Tl2pE3PDA0+BuXPm+g2H2HEHgpj+Gr/BPqB9Cp+x5RnV4t+9ZaA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "admin@admin.com", "Ali", "Abdulle", "Jamalik", 1 },
+                    { "00000000-ffff-fffs-fffd-ffffffffffss", 0, "3709debd-b843-4a5e-987c-80350e597659", "ApplicationUser", "andy@admin.com", true, false, null, "ANDY@ADMIN.COM", "ANDY@ADMIN.COM", "AQAAAAEAACcQAAAAEKg+B+Mr69v6koAVBLC/KOsHrFtEmjXD6DrgQ7sXMmxypOSfciNHXETCqw4Rx0SgXg==", null, false, "7f434409-a4d7-48e8-9ebc-8803db794588", false, "andy@admin.com", "Andy", "Collin", "NSS", 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Load",
-                columns: new[] { "LoadId", "Amount", "CarrierUserId", "CustomerUserId", "DeliverdDate", "DriverId", "Location", "PickupDate" },
-                values: new object[] { 2, 1000.0, "00000000-ffff-fffs-fffd-ffffffffffss", null, new DateTime(2019, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Atlanta, GA", new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                columns: new[] { "LoadId", "Amount", "DeliverdDate", "DriverId", "Location", "PickupDate", "UserTypeId" },
+                values: new object[,]
+                {
+                    { 1, 1200.0, new DateTime(2019, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Nashville, TN", new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 1000.0, new DateTime(2019, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Atlanta, GA", new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -312,19 +303,14 @@ namespace VELogistics.Migrations
                 column: "UserTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Load_CarrierUserId",
-                table: "Load",
-                column: "CarrierUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Load_CustomerUserId",
-                table: "Load",
-                column: "CustomerUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Load_DriverId",
                 table: "Load",
                 column: "DriverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Load_UserTypeId",
+                table: "Load",
+                column: "UserTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

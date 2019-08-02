@@ -104,7 +104,7 @@ namespace VELogistics.Data
                   DeliverdDate = new DateTime(2019, 11, 01),
                   Location = "Nashville, TN",
                   DriverId = 2,
-                  CustomerUserId = CustomerUser.Id
+                  UserTypeId = 1
               },
                new Load()
                {
@@ -114,7 +114,7 @@ namespace VELogistics.Data
                    DeliverdDate = new DateTime(2019, 01, 11),
                    Location = "Atlanta, GA",
                    DriverId = 1,
-                   CarrierUserId = CarrierUser.Id
+                   UserTypeId = 2
                }
                );
 

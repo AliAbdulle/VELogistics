@@ -10,8 +10,8 @@ using VELogistics.Data;
 namespace VELogistics.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190731204442_Initial")]
-    partial class Initial
+    [Migration("20190801231314_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,10 +234,6 @@ namespace VELogistics.Migrations
 
                     b.Property<double>("Amount");
 
-                    b.Property<string>("CarrierUserId");
-
-                    b.Property<string>("CustomerUserId");
-
                     b.Property<DateTime>("DeliverdDate");
 
                     b.Property<int>("DriverId");
@@ -247,13 +243,13 @@ namespace VELogistics.Migrations
 
                     b.Property<DateTime>("PickupDate");
 
+                    b.Property<int>("UserTypeId");
+
                     b.HasKey("LoadId");
 
-                    b.HasIndex("CarrierUserId");
-
-                    b.HasIndex("CustomerUserId");
-
                     b.HasIndex("DriverId");
+
+                    b.HasIndex("UserTypeId");
 
                     b.ToTable("Load");
 
@@ -262,21 +258,21 @@ namespace VELogistics.Migrations
                         {
                             LoadId = 1,
                             Amount = 1200.0,
-                            CustomerUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
                             DeliverdDate = new DateTime(2019, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DriverId = 2,
                             Location = "Nashville, TN",
-                            PickupDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            PickupDate = new DateTime(2019, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserTypeId = 1
                         },
                         new
                         {
                             LoadId = 2,
                             Amount = 1000.0,
-                            CarrierUserId = "00000000-ffff-fffs-fffd-ffffffffffss",
                             DeliverdDate = new DateTime(2019, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DriverId = 1,
                             Location = "Atlanta, GA",
-                            PickupDate = new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            PickupDate = new DateTime(2019, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserTypeId = 2
                         });
                 });
 
@@ -330,13 +326,13 @@ namespace VELogistics.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "628010bf-c392-44cd-9630-07cac4ef412e",
+                            ConcurrencyStamp = "e06f9a3d-bda5-4f03-bf17-38b3b4153d6b",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAED+CRrFzFXPhgBjKSidQQaGCrt2NOPqoCop92QcRdERrYlrFhHLeNW3m4KwHgns4dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPrqlJjcHiR4qB2Tl2pE3PDA0+BuXPm+g2H2HEHgpj+Gr/BPqB9Cp+x5RnV4t+9ZaA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -350,13 +346,13 @@ namespace VELogistics.Migrations
                         {
                             Id = "00000000-ffff-fffs-fffd-ffffffffffss",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "52b3d11f-20af-4514-8622-a8cbc222c803",
+                            ConcurrencyStamp = "3709debd-b843-4a5e-987c-80350e597659",
                             Email = "andy@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDY@ADMIN.COM",
                             NormalizedUserName = "ANDY@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJLBcHHLtpo1Gpu0i0AgUNW25qvPl6E/bG7v6pgwni1Gdjt0ZQIzjY+SmiyC5PhHGA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKg+B+Mr69v6koAVBLC/KOsHrFtEmjXD6DrgQ7sXMmxypOSfciNHXETCqw4Rx0SgXg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434409-a4d7-48e8-9ebc-8803db794588",
                             TwoFactorEnabled = false,
@@ -415,17 +411,14 @@ namespace VELogistics.Migrations
 
             modelBuilder.Entity("VELogistics.Models.Load", b =>
                 {
-                    b.HasOne("VELogistics.Models.ApplicationUser", "CarrierUser")
-                        .WithMany()
-                        .HasForeignKey("CarrierUserId");
-
-                    b.HasOne("VELogistics.Models.ApplicationUser", "CustomerUser")
-                        .WithMany()
-                        .HasForeignKey("CustomerUserId");
-
                     b.HasOne("VELogistics.Models.Driver", "Driver")
                         .WithMany("Loads")
                         .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VELogistics.Models.UserType", "UserType")
+                        .WithMany()
+                        .HasForeignKey("UserTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
