@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +12,17 @@ using VELogistics.Models;
 
 namespace VELogistics.Controllers
 {
+    [Authorize]
     public class LoadsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public LoadsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public LoadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Loads
         public async Task<IActionResult> Index()
         {
@@ -46,16 +50,17 @@ namespace VELogistics.Controllers
 
             return View(load);
         }
-
         // GET: Loads/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CarrierUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
-            ViewData["CustomerUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name");
-            ViewData["DriverId"] = new SelectList(_context.Driver, "Id", "FirstName");
-            return View();
-        }
 
+            var currentUser = await GetCurrentUserAsync();
+            var applicationDbContext = _context.Load.Where(l => l.CustomerUserId == currentUser.Id)
+              .Include(v => v.CustomerUserId)
+              .Include(v => v.CarrierUserId)
+              .Include(v => v.Driver);
+            return View(await applicationDbContext.ToListAsync());
+        }
         // POST: Loads/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
